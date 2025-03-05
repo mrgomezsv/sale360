@@ -6,8 +6,8 @@ services:
     command: gunicorn Sale360.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app  # Monta todo el proyecto en el contenedor
-      - ./dashboard/static:/app/dashboard/static  # Monta específicamente el directorio de arch
-      - ./media:/app/media
+      - ./static:/app/static  # Monta la carpeta de archivos estáticos
+      - ./media:/app/media    # Monta la carpeta de archivos multimedia
     ports:
       - "8003:8000"
     env_file: # Referencia al archivo .env
