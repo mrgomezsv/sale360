@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from system_authentication.views import home_view  # Importa la vista
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('system_authentication.urls')),  # Ruta de login
-    path('', home_view, name='home'),  # Ruta raíz redirige a login
+    path('', include('system_authentication.urls')),  # Incluye las URLs de system_authentication
 ]

@@ -1,0 +1,153 @@
+
+{% load static %}  <!-- Cargar la biblioteca de etiquetas estáticas -->
+
+{% block title %}Registro - Buffet Proevent{% endblock %}
+
+{% block content %}
+<style>
+    /* Copia el CSS que proporcionaste aquí */
+    :root {
+        --primary: #000000;
+        --primary-light: #22211F;
+        --primary-disabled: #363435;
+        --primary-lighter: #454344;
+        --secondary: #1D1D1D;
+        --text: #11181C;
+        --text-gray: #687076;
+        --text-placeholder: #8890A7;
+        --border: #DFE3E6;
+        --btn-bg: #EDEDED;
+        --input-bg: #F1F2F3;
+        --background: #F8F8FF;
+        --error: #e5484d;
+    }
+
+    /* Resto del CSS que proporcionaste */
+    /* ... */
+</style>
+
+<div class="form-wrapper">
+    <main class="form-side">
+        <a href="#" title="Logo">
+            <img src="{% static '/images/logo.jpg' %}" alt="Laplace Logo" class="logo">
+        </a>
+        <form class="my-form" method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-welcome-row">
+                <h1>¡Regístrate! &#128079;</h1>
+                <h2>¡Crea una cuenta en Buffet ProEvent!</h2>
+            </div>
+
+            <!-- Campos del formulario -->
+            <div class="text-field">
+                <label for="{{ form.username.id_for_label }}">Usuario</label>
+                {{ form.username }}
+                <div class="error-message">{{ form.username.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                {{ form.password }}
+                <div class="error-message">{{ form.password.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.first_name.id_for_label }}">Primer Nombre</label>
+                {{ form.first_name }}
+                <div class="error-message">{{ form.first_name.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.second_name.id_for_label }}">Segundo Nombre</label>
+                {{ form.second_name }}
+                <div class="error-message">{{ form.second_name.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.third_name.id_for_label }}">Tercer Nombre</label>
+                {{ form.third_name }}
+                <div class="error-message">{{ form.third_name.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.first_lastname.id_for_label }}">Primer Apellido</label>
+                {{ form.first_lastname }}
+                <div class="error-message">{{ form.first_lastname.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.second_lastname.id_for_label }}">Segundo Apellido</label>
+                {{ form.second_lastname }}
+                <div class="error-message">{{ form.second_lastname.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.third_lastname.id_for_label }}">Tercer Apellido</label>
+                {{ form.third_lastname }}
+                <div class="error-message">{{ form.third_lastname.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.age.id_for_label }}">Edad</label>
+                {{ form.age }}
+                <div class="error-message">{{ form.age.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.email.id_for_label }}">Correo Electrónico</label>
+                {{ form.email }}
+                <div class="error-message">{{ form.email.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.position.id_for_label }}">Cargo</label>
+                {{ form.position }}
+                <div class="error-message">{{ form.position.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.company.id_for_label }}">Empresa</label>
+                {{ form.company }}
+                <div class="error-message">{{ form.company.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.phone.id_for_label }}">Teléfono</label>
+                {{ form.phone }}
+                <div class="error-message">{{ form.phone.errors }}</div>
+            </div>
+
+            <div class="text-field">
+                <label for="{{ form.is_root.id_for_label }}">Root</label>
+                {{ form.is_root }}
+                <div class="error-message">{{ form.is_root.errors }}</div>
+            </div>
+
+            <button class="my-form__button" type="submit">
+                Registrarse
+            </button>
+
+            <div class="my-form__actions">
+                <div class="my-form__row">
+                    <span>¿Ya tienes una cuenta?</span>
+                    <a href="{% url 'login' %}" title="Iniciar Sesión">
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </form>
+    </main>
+    <aside class="info-side">
+        <div class="blockquote-wrapper">
+            <img src="{% static '/images/banner2.png' %}" alt="Returns" class="returns">
+            <blockquote>
+                Arte Culinario de Chinameca.
+            </blockquote>
+            <div class="author">
+                <img src="{% static '/images/yo.jpg' %}" alt="Avatar" class="avatar">
+                <span class="author-name">@mrgomez.dev</span>
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock %}
