@@ -137,3 +137,7 @@ Email: mrgomez.dev@gmail.com
 GitHub: tu-usuario
 ¡Gracias por usar Sale360! 🚀
 
+### Aplicar migraciones con el docker corriendo
+
+mrgomez@MacBook-Pro-de-Mario Sale360 % docker compose exec web python manage.py makemigrations
+docker compose exec web python manage.py migrate
