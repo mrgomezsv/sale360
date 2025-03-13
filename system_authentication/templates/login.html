@@ -298,6 +298,17 @@
         color: var(--text);
     }
 
+    .error-message {
+    display: none;  /* Oculta el mensaje de error por defecto */
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--error);
+    }
+
+    input:invalid ~ .error-message {
+        display: block;  /* Muestra el mensaje de error cuando el campo es inválido */
+    }
+
     @media (max-width: 720px) {
         .form-wrapper {
             grid-template-columns: 1fr;
@@ -327,6 +338,15 @@
         </a>
         <form class="my-form" method="POST" action="{% url 'login' %}">
     {% csrf_token %}
+                <div class="form-welcome-row">
+                <h1>!Sale360 System! &#128079;</h1>
+                <h2>¡Inicia sesión como administrador o de empleado!</h2>
+            </div>
+            <div class="divider">
+                <div class="divider-line"></div>
+                o
+                <div class="divider-line"></div>
+            </div>
     <div class="text-field">
         <label for="username">Nombre de usuario</label>
         <input type="text" id="username" name="username" autocomplete="off" placeholder="Tu nombre de usuario" required>
@@ -334,10 +354,27 @@
     </div>
     <div class="text-field">
         <label for="password">Contraseña</label>
-        <input id="password" type="password" name="password" placeholder="Tu Contraseña" required>
-        <div class="error-message">Contraseña incorrecta</div>
+        <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Tu Contraseña"
+            title="Mínimo 6 caracteres, al menos 1 letra, 1 número y 1 símbolo"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$"
+            required
+            oninput="validatePassword(this)"
+        >
+        <div class="error-message" id="password-error">Mínimo 6 caracteres, al menos 1 letra, 1 número y 1 símbolo</div>
     </div>
     <button class="my-form__button" type="submit">Iniciar Sesión</button>
+    <div class="my-form__actions">
+                <div class="my-form__row">
+                    <span>No eres usuario?</span>
+                    <a href="{% url 'register' %}" title="Registrate">
+                        Registrarse Ahora
+                    </a>
+                </div>
+            </div>
 </form>
     </main>
     <aside class="info-side">
@@ -354,3 +391,30 @@
     </aside>
 </div>
 {% endblock %}
+<script>
+    function validatePassword(input) {
+        const errorMessage = document.getElementById('password-error');
+        const password = input.value;
+
+        // Expresiones regulares para validar los requisitos
+        const hasLetter = /[A-Za-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSymbol = /[\W_]/.test(password);
+        const hasMinLength = password.length >= 6;
+
+        // Mensajes de error
+        let messages = [];
+        if (!hasLetter) messages.push("Falta al menos una letra");
+        if (!hasNumber) messages.push("Falta al menos un número");
+        if (!hasSymbol) messages.push("Falta al menos un símbolo");
+        if (!hasMinLength) messages.push("Mínimo 6 caracteres");
+
+        // Mostrar u ocultar el mensaje de error
+        if (messages.length > 0) {
+            errorMessage.textContent = messages.join(", ");
+            errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+</script>
