@@ -13,6 +13,9 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),# Contraseña del usuario
         'HOST': os.getenv('POSTGRES_HOST'),        # Dirección IP del servidor
         'PORT': os.getenv('POSTGRES_PORT'),        # Puerto de PostgreSQL
+        'OPTIONS': {
+            'sslmode': 'require',  # Usar SSL
+        },
     }
 }
 
@@ -92,3 +95,6 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGIN_REDIRECT_URL = 'dashboard'  # Redirige al dashboard después del login
+LOGOUT_REDIRECT_URL = 'login'  # Redirige al login después del logout
