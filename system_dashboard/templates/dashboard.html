@@ -5,25 +5,28 @@
 {% block content %}
 
 <style>
+
+
 :root {
   --primary-color: #191919;
-  --primary: #408CF9;
   --white: #FFFFFF;
-  --sidebar-primary-hover: #2B2B2F;
-  --sidebar-background: #141318;
-  --background: #F3F5F6;
-  --text-link: #FFFFFF;
-  --expand-button: #408CF9;
+  --sidebar-hover: #1D242E;
+  --sidebar-bg: #0E1420;
+  --bg: #30373F;
+  --text-link: #E7EAEE;
   --logout: #FA7575;
-  --search-background: #2B2B2F;
+  --headline-text: #546471;
+  --text: #E7EAEE;
+  --divider-bg: var(--bg);
+  --border-color: var(--bg);
 }
 
 body {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 16px;
   padding: 1rem;
   height: 100%;
-  background: var(--background);
+  background: var(--bg);
 }
 
 html {
@@ -37,21 +40,31 @@ html {
 }
 
 .sidebar {
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
-  min-height: 50rem;
   height: 100%;
-  padding: 1.5rem 1rem;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   user-select: none;
   max-width: 18rem;
-  min-width: 4rem;
+  min-width: 4.5rem;
   display: flex;
   color: var(--white);
+  border: 1px solid #252C36;
   flex-direction: column;
-  background-color: var(--sidebar-background);
+  background: var(--sidebar-bg);
   transition: max-width 0.2s ease-in-out;
+}
+
+.sidebar h2 {
+  color: var(--headline-text);
+  font-size: 1rem;
+  margin-top: 1rem;
+  line-height: 1.5rem;
+}
+
+body.collapsed .sidebar h2 {
+  display: none;
 }
 
 body.collapsed .sidebar {
@@ -64,65 +77,39 @@ body.collapsed .hide {
   visibility: hidden;
 }
 
-/*? search wrapper */
-.search__wrapper {
-  position: relative;
-}
-
-.search__wrapper input {
-  background-color: var(--search-background);
-  min-height: 3rem;
-  width: 100%;
-  color: var(--text-link);
-  border-radius: 0.75rem;
-  padding-left: 2.75rem;
-  font-size: 1.4rem;
-  border: none;
-}
-
-.search__wrapper svg {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 0.75rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  stroke: var(--text-link);
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
 /*? sidebar top */
 .sidebar-top-wrapper {
+  position: relative;
   display: flex;
-  background-color: var(--primary-color-light);
 }
 
 .sidebar-top {
-  position: relative;
   display: flex;
   align-items: start;
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
   height: 4rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
+  padding-top: 2rem;
 }
 
 .logo__wrapper {
   display: flex;
   align-items: center;
   color: var(--text-link);
+  padding-left: 0.2rem;
   font-weight: 700;
   text-decoration: none;
   font-size: 1.35rem;
-  padding: 0 0.6rem;
   gap: 0.75rem;
 }
 
 .logo-small {
-  height: 2rem;
-  width: 2rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 0.4rem;
+  padding: 0.25rem;
   overflow: hidden;
   object-fit: cover;
 }
@@ -132,13 +119,19 @@ body.collapsed .hide {
 }
 
 /*? menu links */
-.sidebar-links {
-  margin-top: 1rem;
+
+.sidebar-links-wrapper {
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+}
+
+body.collapsed .sidebar-links-wrapper {
+  overflow: hidden;
 }
 
 .sidebar-links ul {
   list-style-type: none;
-  position: relative;
   display: flex;
   row-gap: 0.5rem;
   flex-direction: column;
@@ -157,13 +150,13 @@ body.collapsed .hide {
 }
 
 .sidebar-links li a:hover {
-  background-color: var(--sidebar-primary-hover);
+  background: var(--sidebar-hover);
 }
 
 .sidebar-links li a {
   color: var(--text-link);
   width: 100%;
-  padding-left: 0.6rem;
+  padding: 0 0.6rem;
   font-size: 1.25rem;
   display: flex;
   gap: 0.75rem;
@@ -172,7 +165,7 @@ body.collapsed .hide {
   align-items: center;
   min-height: 3.25rem;
   text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out;
 }
 
 .sidebar-links li a .link {
@@ -182,12 +175,12 @@ body.collapsed .hide {
 }
 
 .sidebar-links .active:hover {
-  background-color: var(--sidebar-primary-hover);
+  background: var(--sidebar-hover);
 }
 
 .sidebar-links .active {
   text-decoration: none;
-  background-color: var(--sidebar-primary-hover);
+  background: var(--sidebar-hover);
   color: var(--text-link);
 }
 
@@ -195,52 +188,28 @@ body.collapsed .hide {
   stroke: var(--text-link);
 }
 
-/* ?tooltip */
-.tooltip {
-  position: relative;
+.divider {
+  display: none;
 }
 
-.tooltip .tooltip__content::after {
-  content: " ";
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  margin-left: -9px;
-  margin-top: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent var(--primary-color) transparent transparent;
-}
-
-.tooltip .tooltip__content {
-  visibility: hidden;
-  background-color: var(--primary-color);
-  color: var(--white);
-  text-align: center;
-  border-radius: 6px;
-  padding: 0.35rem 0.75rem;
-  position: absolute;
-  z-index: 1;
-  left: 4.5rem;
-}
-
-.collapsed .tooltip:hover .tooltip__content {
-  visibility: visible;
-}
-
-.collapsed .tooltip:focus .tooltip__content {
-  visibility: visible;
+body.collapsed .divider {
+  width: 100%;
+  display: block;
+  background: var(--divider-bg);
+  height: 2px;
+  margin: 0.5rem 0;
 }
 
 /*? profile part */
 .sidebar__profile {
   display: flex;
+  padding: 1rem;
   align-items: center;
   gap: 0.75rem;
   flex-direction: row;
   color: var(--text-link);
-  overflow-x: hidden;
-  min-height: 2.5rem;
+  overflow: hidden;
+  min-height: 4rem;
   margin-top: auto;
 }
 
@@ -251,17 +220,12 @@ body.collapsed .hide {
 
 .avatar {
   display: block;
-  width: 3rem;
-  height: 3rem;
   object-fit: cover;
+  height: 3rem;
+  width: 3rem;
   cursor: pointer;
   border-radius: 50%;
-  border: 3px solid transparent;
   transition: all 0.2s ease-in-out;
-}
-
-.avatar:hover {
-  border: 3px solid var(--primary);
 }
 
 .avatar__name {
@@ -282,32 +246,25 @@ body.collapsed .hide {
   font-size: 0.8rem;
 }
 
-.logout {
-  margin-left: auto;
-}
-
-.logout svg {
-  color: var(--logout);
-}
-
 /*? Expand button */
 .expand-btn {
   position: absolute;
   display: grid;
   place-items: center;
   cursor: pointer;
-  background-color: var(--expand-button);
+  background: var(--sidebar-bg);
   z-index: 2;
-  right: -1rem;
+  border: 1px solid var(--border-color);
+  right: -1.25rem;
+  top: 1.40rem;
   width: 2.25rem;
   height: 2.25rem;
-  border: none;
   border-radius: 50%;
 }
 
 .expand-btn svg {
   transform: rotate(-180deg);
-  stroke: var(--white);
+  stroke: var(--text-link);
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -327,6 +284,50 @@ body.collapsed .expand-btn svg {
     width: 100%;
   }
 }
+
+.sidebar__profile .logout {
+  margin-left: auto;
+  height: 2.25rem;
+  width: 2.25rem;
+  cursor: pointer;
+  stroke: var(--logout);
+}
+
+.main-item > .expand-icon {
+  transition: all ease-in-out 0.25s;
+}
+
+.main-item--open > .expand-icon {
+  transform: rotate(-90deg);
+}
+
+body.collapsed .expand-icon {
+  display: none;
+}
+
+.main-item ~ ul {
+  border-left: 2px solid var(--sidebar-hover);
+  margin-left: 0.875rem;
+  padding-left: 0.425rem;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: all 200ms;
+}
+
+.main-item--open ~ ul {
+  visibility: visible;
+  margin-top: 1rem;
+  opacity: 1;
+  max-height: 25rem;
+}
+
+.logo {
+  width: 50px;  /* Ajusta el tamaño según lo necesites */
+  height: 50px; /* Hace que la imagen sea cuadrada */
+  border-radius: 50%; /* La hace circular */
+  object-fit: cover; /* Ajusta la imagen dentro del espacio */
+}
 </style>
 
 <!DOCTYPE html>
@@ -337,7 +338,7 @@ body.collapsed .expand-btn svg {
   <title>Sidebar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -346,135 +347,95 @@ body.collapsed .expand-btn svg {
     <div class="sidebar-top-wrapper">
       <div class="sidebar-top">
         <a href="#" class="logo__wrapper">
-          <img src="{% static '/images/logo.jpg' %}" alt="Logo" class="logo-small">
+          <img src="{% static '/images/logo.jpg' %}" alt="Crestline Bank Logo" class="logo">
           <span class="hide company-name">
-            Sale360
+            Crestline Bank
           </span>
         </a>
       </div>
       <button class="expand-btn" type="button">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="exp-btn" role="img">
-          <title id="exp-btn">Expand/Collapse Menu</title>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6.00979 2.72L10.3565 7.06667C10.8698 7.58 10.8698 8.42 10.3565 8.93333L6.00979 13.28"
             stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
     </div>
-    <div class="search__wrapper">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="search-icon" role="img">
-        <title id="search-icon">Search</title>
-        <path
-          d="M9 9L13 13M5.66667 10.3333C3.08934 10.3333 1 8.244 1 5.66667C1 3.08934 3.08934 1 5.66667 1C8.244 1 10.3333 3.08934 10.3333 5.66667C10.3333 8.244 8.244 10.3333 5.66667 10.3333Z"
-          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <input type="text" aria-labelledby="search-icon">
-    </div>
-    <div class="sidebar-links">
-      <ul>
-        <li>
-          <a href="#dashboard" title="Accounting" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-dashboard" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 4h6v8h-6z" />
-              <path d="M4 16h6v4h-6z" />
-              <path d="M14 12h6v8h-6z" />
-              <path d="M14 4h6v4h-6z" />
-            </svg>
-            <span class="link hide">Contabilidad</span>
-            <span class="tooltip__content">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="#market-overview" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-              <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-              <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-              <path d="M4 20l14 0" />
-            </svg>
-            <span class="link hide">Metricas</span>
-            <span class="tooltip__content">Market Overview</span>
-          </a>
-        </li>
-        <li>
-          <a href="#analytics" title="DTE SV" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-pie" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 3.2a9 9 0 1 0 10.8 10.8a1 1 0 0 0 -1 -1h-6.8a2 2 0 0 1 -2 -2v-7a.9 .9 0 0 0 -1 -.8" />
-              <path d="M15 3.5a9 9 0 0 1 5.5 5.5h-4.5a1 1 0 0 1 -1 -1v-4.5" />
-            </svg>
-            <span class="link hide">DTE SV</span>
-            <span class="tooltip__content">Analytics</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="#reports" title="RRHH" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-report-analytics" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-              <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-              <path d="M9 17v-5" />
-              <path d="M12 17v-1" />
-              <path d="M15 17v-3" />
-            </svg>
-            <span class="link hide">RRHH</span>
-            <span class="tooltip__content">Reports</span>
-          </a>
-        </li>
-        <li>
-          <a href="#industries" title="Inventario" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-factory-2" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M3 21h18" />
-              <path d="M5 21v-12l5 4v-4l5 4h4" />
-              <path d="M19 21v-8l-1.436 -9.574a.5 .5 0 0 0 -.495 -.426h-1.145a.5 .5 0 0 0 -.494 .418l-1.43 8.582" />
-              <path d="M9 17h1" />
-              <path d="M14 17h1" />
-            </svg>
-            <span class="link hide">Inventario</span>
-            <span class="tooltip__content">Industries</span>
-          </a>
-        </li>
-        <li>
-          <a href="#settings" title="Nomina" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
-              </path>
-              <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-            </svg>
-            <span class="link hide">Nomina</span>
-            <span class="tooltip__content">Settings</span>
-          </a>
-        </li>
-        <li>
-          <a href="#notifications" title="Sale" class="tooltip">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="24" height="24"
-              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" aria-hidden="true">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-            </svg>
-            <span class="link hide">Ventas</span>
-            <span class="tooltip__content">Notifications</span>
-          </a>
-        </li>
-      </ul>
+    <div class="sidebar-links-wrapper">
+      <div class="sidebar-links">
+        <ul>
+          <li>
+            <a href="#dashboard" title="Dashboard" >
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-layout-dashboard"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 3a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2zm0 12a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-2a2 2 0 0 1 2 -2zm10 -4a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2zm0 -8a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-2a2 2 0 0 1 2 -2z" /></svg>
+              <span class="link hide">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#bank-accounts" title="Bank Accounts" class="tooltip main-item" >
+              <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-bank"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 10l18 0" /><path d="M5 6l7 -3l7 3" /><path d="M4 10l0 11" /><path d="M20 10l0 11" /><path d="M8 14l0 3" /><path d="M12 14l0 3" /><path d="M16 14l0 3" /></svg>
+              <span class="link hide">Bank Accounts</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="hide expand-icon"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 6l6 6l-6 6" />
+              </svg>
+            </a>
+            <ul class="hide">
+              <li>
+                <a href="#income" title="Income">
+                  Income
+                </a>
+              </li>
+              <li>
+                <a href="#expenses" title="Expense">
+                  Expenses
+                </a>
+              </li>
+              <li>
+                <a href="#statements" title="Statements">
+                  Statements
+                </a>
+              </li>
+              <li>
+                <a href="#payouts" title="Payouts">
+                  Payouts
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#transfers" title="Transfers" >
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-repeat"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" /><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3" /></svg>
+              <span class="link hide">Transfers</span>
+            </a>
+          </li>
+          <li>
+            <a href="#reports" title="Reports" >
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-analytics"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 17l0 -5" /><path d="M12 17l0 -1" /><path d="M15 17l0 -3" /></svg>              <span class="link hide">Reports</span>
+            </a>
+          </li>
+          <li>
+            <a href="#wallets" title="Wallets" >
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-wallet"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" /><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" /></svg>
+              <span class="link hide">Wallets</span>
+            </a>
+          </li>
+          <li>
+            <a href="#statistics" title="Statistics" >
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chart-pie"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 3.2a9 9 0 1 0 10.8 10.8a1 1 0 0 0 -1 -1h-6.8a2 2 0 0 1 -2 -2v-7a.9 .9 0 0 0 -1 -.8" /><path d="M15 3.5a9 9 0 0 1 5.5 5.5h-4.5a1 1 0 0 1 -1 -1v-4.5" /></svg>              <span class="link hide">Statistics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="sidebar__profile">
       <div class="avatar__wrapper">
@@ -483,19 +444,9 @@ body.collapsed .expand-btn svg {
       </div>
       <div class="avatar__name hide">
         <div class="user-name">{{ user.username }}</div>
-        <div class="email">{{ user.useremail }}</div>
+        <div class="email">{{ user.email }}</div>
       </div>
-      <a href="{% url 'logout' %}" class="logout hide">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24" height="24"
-          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-          stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
-          <title id="logout-icon">log out</title>
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
-          <path d="M9 12h12l-3 -3"></path>
-          <path d="M18 15l3 -3"></path>
-        </svg>
-      </a>
+      <svg class="logout" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
     </div>
   </nav>
   <script src="script.js"></script>
@@ -504,7 +455,7 @@ body.collapsed .expand-btn svg {
 </html>
 {% endblock %}
 <script>
-    const expand_btn = document.querySelector(".expand-btn");
+const expand_btn = document.querySelector(".expand-btn");
 
 let activeIndex;
 
@@ -530,9 +481,15 @@ allLinks.forEach((elem) => {
   });
 });
 
-const searchInput = document.querySelector(".search__wrapper input");
+const mainItems = document.querySelectorAll(
+  '.main-item'
+);
 
-searchInput.addEventListener("focus", (e) => {
-  document.body.classList.remove("collapsed");
+mainItems.forEach((mainItem) => {
+  mainItem.addEventListener('click', () => {
+    mainItem.classList.toggle(
+      'main-item--open'
+    );
+  })
 });
 </script>
