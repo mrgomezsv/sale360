@@ -1,6 +1,7 @@
+# system_sales_order/urls.py
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('presupuestos/', views.lista_presupuestos, name='lista_presupuestos'),
+    path('pedidos/', views.lista_presupuestos, name='lista_presupuestos'),
 ]

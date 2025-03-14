@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('system_authentication.urls')),  # URLs de autenticación
     path('dashboard/', include('system_dashboard.urls')),  # URLs del dashboard
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # URL para logout
+    path('sales_order/', include('system_sales_order.urls')),
 ]
