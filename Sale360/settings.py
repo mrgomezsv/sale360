@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'system_inventory',
     'system_invoicing',
     'system_payroll',
-    'system_sales',
+    'system_sales_order',
 ]
 
 MIDDLEWARE = [

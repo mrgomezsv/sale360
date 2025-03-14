@@ -1,6 +1,5 @@
 from django.apps import AppConfig
 
-
 class SystemSalesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'system_sales'
+    name = 'system_sales_order'  # Asegúrate de que este nombre sea correcto
