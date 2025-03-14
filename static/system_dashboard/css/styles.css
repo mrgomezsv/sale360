@@ -15,7 +15,7 @@
 body {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
-  padding: 1rem;
+  margin: 0; /* Eliminamos el margen por defecto */
   height: 100%;
   background: var(--bg);
 }
@@ -35,7 +35,7 @@ html {
   top: 0;
   left: 0;
   height: 100vh; /* Ocupa toda la altura de la ventana */
-  border-radius: 1rem;
+  border-radius: 0; /* Eliminamos el border-radius si no es necesario */
   user-select: none;
   max-width: 18rem;
   min-width: 4.5rem;
