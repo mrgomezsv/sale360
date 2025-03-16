@@ -321,3 +321,24 @@ body.collapsed .expand-icon {
   border-radius: 50%; /* La hace circular */
   object-fit: cover; /* Ajusta la imagen dentro del espacio */
 }
+
+/* Contenedor principal */
+.main-container {
+    display: flex; /* Usa flexbox para alinear el sidebar y el contenido */
+    min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+}
+
+/* Contenedor del contenido dinámico */
+.content-container {
+    margin-left: 18rem; /* Ajusta el margen izquierdo para dejar espacio para el sidebar */
+    padding: 20px; /* Espacio interior */
+    flex-grow: 1; /* Ocupa el espacio restante */
+    background-color: var(--bg); /* Fondo del contenido */
+    color: var(--text); /* Color del texto */
+    transition: margin-left 0.2s ease-in-out; /* Transición suave */
+}
+
+/* Ajustes cuando el sidebar está colapsado */
+body.collapsed .content-container {
+    margin-left: 5rem; /* Ajusta el margen izquierdo para el sidebar colapsado */
+}

@@ -1,6 +1,6 @@
 {% load static %}  <!-- Cargar la biblioteca de etiquetas estáticas -->
 
-<!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{% static 'system_dashboard/css/styles.css' %}">
 </head>
 <body>
-    {% block content %}
+
     <nav class="sidebar">
         <div class="sidebar-top-wrapper">
             <div class="sidebar-top">
@@ -55,9 +55,7 @@
             </a>
             <ul class="hide">
               <li>
-                <a href="#pedidos" title="Pedidos">
-                  Pedidos
-                </a>
+                <a href="{% url 'pedidos' %}" id="pedidos-link">Pedidos</a>
               </li>
               <li>
                 <a href="#afacturar" title="AFacturar">
@@ -294,25 +292,52 @@
         </ul>
             </div>
         </div>
-        <div class="sidebar__profile">
-            <div class="avatar__wrapper">
-                <img class="avatar" src="{% static 'system_dashboard/images/yo.jpg' %}" alt="Joe Doe Picture">
-                <div class="online__status"></div>
-            </div>
-            <div class="avatar__name hide">
-                <div class="user-name">{{ user.username }}</div>
-                <div class="email">{{ user.email }}</div>
-            </div>
-            <a href="{% url 'logout' %}" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">
-            <svg class="logout" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                <path d="M9 12h12l-3 -3" />
-                <path d="M18 15l3 -3" />
-            </svg>
-        </div>
+      <div class="avatar__wrapper">
+        <img class="avatar" src="{% static 'system_dashboard/images/yo.jpg' %}" alt="Joe Doe Picture">
+        <div class="online__status"></div>
+      </div>
+      <div class="avatar__name hide">
+        <div class="user-name">{{ user.username }}</div>
+        <div class="email">{{ user.email }}</div>
+      </div>
+      <a href="{% url 'logout' %}" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">
+        <svg class="logout" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+          <path d="M9 12h12l-3 -3" />
+          <path d="M18 15l3 -3" />
+        </svg>
     </nav>
+        <!-- Contenedor del contenido dinámico -->
+        <div class="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
+
     <script src="{% static 'system_dashboard/js/script.js' %}"></script>
-{% endblock %}
+    <script>
+        $(document).ready(function() {
+            // Muestra el submenú al hacer clic en el elemento principal
+            $('.main-item').click(function() {
+                $(this).next('ul').toggleClass('hide');
+            });
+
+            // Maneja el clic en el enlace "Pedidos"
+            $('#pedidos-link').click(function(e) {
+                e.preventDefault(); // Evita que el enlace recargue la página
+                $.ajax({
+                    url: "{% url 'pedidos' %}",  // URL de la vista de pedidos
+                    type: 'GET',
+                    success: function(response) {
+                        $('#main-content').html(response);  // Carga el contenido en el contenedor
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al cargar el contenido: ", error);
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
