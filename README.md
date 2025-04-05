@@ -141,3 +141,7 @@ GitHub: tu-usuario
 
 mrgomez@MacBook-Pro-de-Mario Sale360 % docker compose exec web python manage.py makemigrations
 docker compose exec web python manage.py migrate
+
+### Correr el proyecto en Docker
+mrgomez@MacBook-Pro-de-Mario Sale360 % docker compose down
+docker compose up --build
