@@ -185,6 +185,20 @@ $(document).ready(function() {
     // Inicialmente deshabilitar los botones
     $('.o_form_button_edit, .o_form_button_delete').prop('disabled', true);
 });
+
+function navegarANuevoPedido() {
+    $.ajax({
+        url: "{% url 'pedido_nuevo' %}",
+        type: 'GET',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        success: function(response) {
+            $('.content-container').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al cargar el formulario: ", error);
+        }
+    });
+}
 </script>
 
 <div class="table-widget">
@@ -192,9 +206,9 @@ $(document).ready(function() {
     <div class="o_control_panel">
         <div class="o_cp_left">
             <div class="o_cp_buttons">
-                <a href="{% url 'pedido_nuevo' %}" class="btn btn-primary pedido-link">
+                <button type="button" class="btn btn-primary" onclick="navegarANuevoPedido()">
                     <i class="fa fa-plus"></i> Crear
-                </a>
+                </button>
                 <button type="button" class="btn btn-secondary o_form_button_edit">
                     <i class="fa fa-pencil"></i> Editar
                 </button>
