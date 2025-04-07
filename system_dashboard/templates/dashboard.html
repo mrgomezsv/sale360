@@ -58,9 +58,7 @@
                 <a href="{% url 'pedidos' %}" id="pedidos-link">Pedidos</a>
               </li>
               <li>
-                <a href="#afacturar" title="AFacturar">
-                  A Facturar
-                </a>
+                <a href="{% url 'a_facturar' %}" id="a_facturar-link" title="A Facturar">A Facturar</a>
               </li>
               <li>
                 <a href="#productos" title="Productos">
@@ -330,6 +328,23 @@
             e.preventDefault();
             $.ajax({
                 url: "{% url 'pedidos' %}",
+                type: 'GET',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                success: function(response) {
+                    $('.content-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al cargar el contenido: ", error);
+                    $('.content-container').html('<p>Error al cargar pedidos</p>');
+                }
+            });
+        });
+
+        // Maneja el clic en el enlace "A Facturar"
+        $('#a_facturar-link').click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'a_facturar' %}",
                 type: 'GET',
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 success: function(response) {

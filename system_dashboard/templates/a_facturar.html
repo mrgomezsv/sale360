@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+:root {
+    --background: #2f373f;
+    --table-background: #2f373f;
+    --primary: #4a90e2;
+    --gray: #b8c2cc;
+    --odd-row: #353f48;
+    --th-background: #272e35;
+    --gray-background: #272e35;
+    --gray-mid: #353f48;
+    --text-color: #ffffff;
+}
+
+.table-widget {
+    border-radius: 1rem;
+    background-color: var(--table-background);
+    padding: 1.25rem;
+    width: 230%;
+    margin: 1rem 0.5rem;
+    border: 2px solid var(--gray-background);
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    color: var(--text-color);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    padding-bottom: 0.5rem;
+}
+
+.table-widget table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.table-widget thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--th-background);
+}
+
+.table-widget th {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-color);
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.table-widget td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-bottom: 2px solid var(--gray-background);
+}
+
+.table-widget tr:nth-child(odd) {
+    background-color: var(--odd-row);
+}
+
+.o_status_badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.o_status_green {
+    background-color: #1e4620;
+    color: #4ade80;
+}
+
+.o_status_yellow {
+    background-color: #4a3f10;
+    color: #fbbf24;
+}
+
+.o_status_red {
+    background-color: #4c1d1d;
+    color: #f87171;
+}
+
+.o_control_panel {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--table-background);
+    border-radius: 0.75rem;
+    border: 2px solid var(--gray-background);
+}
+
+.btn {
+    border-radius: 0.75rem;
+    padding: 0.675rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--gray-mid);
+    color: var(--text-color);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.o_cp_buttons .btn {
+    margin-right: 0.5rem;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    height: 0.75rem;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: var(--gray-mid);
+    border-radius: 0.45rem;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--gray);
+    border-radius: 0.4rem;
+}
+</style>
+<div class="table-widget">
+    <div class="o_control_panel">
+        <div class="o_cp_left">
+            <div class="o_cp_buttons">
+                <button type="button" class="btn btn-primary o_form_button_create">
+                    <i class="fa fa-plus"></i> Crear
+                </button>
+                <button type="button" class="btn btn-secondary o_form_button_edit">
+                    <i class="fa fa-pencil"></i> Editar
+                </button>
+                <button type="button" class="btn btn-danger o_form_button_delete">
+                    <i class="fa fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+        <div class="o_cp_right">
+            <div class="o_search_options">
+                <div class="o_filter_menu" style="margin-top: 2px;">
+                    <button class="btn btn-link o_dropdown_toggler">
+                        <i class="fa fa-filter"></i> Filtros
+                    </button>
+                </div>
+                <div class="o_group_by_menu" style="margin-top: 2px;">
+                    <button class="btn btn-link o_dropdown_toggler">
+                        <i class="fa fa-bars"></i> Agrupar por
+                    </button>
+                </div>
+                <div class="o_favorites_menu" style="margin-top: 2px;">
+                    <button class="btn btn-link o_dropdown_toggler">
+                        <i class="fa fa-star"></i> Favoritos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="o_list_view">
+        <div class="table-wrapper">
+            <table class="o_list_table table table-sm table-hover table-striped">
+                <thead class="o_list_table_thead">
+                    <tr>
+                        <th class="o_column_sortable" data-name="name"><span>Referencia</span></th>
+                        <th class="o_column_sortable" data-name="date_order"><span>Fecha</span></th>
+                        <th class="o_column_sortable" data-name="partner_id"><span>Cliente</span></th>
+                        <th class="o_column_sortable" data-name="amount_total"><span>Total</span></th>
+                        <th class="o_column_sortable" data-name="state"><span>Estado</span></th>
+                    </tr>
+                </thead>
+                <tbody class="o_list_table_tbody">
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.name }}</td>
+                        <td>{{ pedido.date_order }}</td>
+                        <td>{{ pedido.partner_id }}</td>
+                        <td>{{ pedido.amount_total }}</td>
+                        <td>
+                            <span class="o_status_badge {% if pedido.state == 'draft' %}o_status_yellow{% elif pedido.state == 'done' %}o_status_green{% else %}o_status_red{% endif %}">
+                                {{ pedido.state }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center" style="color: white;">No hay documentos por facturar.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
