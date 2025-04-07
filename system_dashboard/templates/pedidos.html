@@ -153,14 +153,48 @@
 }
 </style>
 
+<script>
+$(document).ready(function() {
+    // Habilitar/deshabilitar botones según la selección
+    var selectedRow = null;
+
+    $('.table-hover tbody tr').click(function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        $('.o_form_button_edit, .o_form_button_delete').prop('disabled', false);
+        selectedRow = $(this);
+    });
+
+    // Botón Editar
+    $('.o_form_button_edit').click(function() {
+        if (selectedRow) {
+            var pedidoId = selectedRow.data('id');
+            window.location.href = '/pedidos/' + pedidoId + '/editar/';
+        }
+    });
+
+    // Botón Eliminar
+    $('.o_form_button_delete').click(function() {
+        if (selectedRow) {
+            var pedidoId = selectedRow.data('id');
+            if (confirm('¿Está seguro de eliminar este pedido?')) {
+                window.location.href = '/pedidos/' + pedidoId + '/eliminar/';
+            }
+        }
+    });
+
+    // Inicialmente deshabilitar los botones
+    $('.o_form_button_edit, .o_form_button_delete').prop('disabled', true);
+});
+</script>
+
 <div class="table-widget">
     <h1 style="color: white; margin: 1rem 0.5rem;">Pedidos</h1>
     <div class="o_control_panel">
         <div class="o_cp_left">
             <div class="o_cp_buttons">
-                <button type="button" class="btn btn-primary o_form_button_create">
+                <a href="{% url 'pedido_nuevo' %}" class="btn btn-primary pedido-link">
                     <i class="fa fa-plus"></i> Crear
-                </button>
+                </a>
                 <button type="button" class="btn btn-secondary o_form_button_edit">
                     <i class="fa fa-pencil"></i> Editar
                 </button>
@@ -200,28 +234,38 @@
                         <th class="o_column_sortable" data-name="partner_id"><span>Cliente</span></th>
                         <th class="o_column_sortable" data-name="amount_total"><span>Total</span></th>
                         <th class="o_column_sortable" data-name="state"><span>Estado</span></th>
+                        <th><span>Acciones</span></th>
                     </tr>
                 </thead>
                 <tbody class="o_list_table_tbody">
                     {% for pedido in pedidos %}
-                    <tr class="o_data_row">
-                        <td class="o_data_cell o_readonly">{{ pedido.referencia }}</td>
-                        <td class="o_data_cell">{{ pedido.fecha|date:"d/m/Y" }}</td>
-                        <td class="o_data_cell">{{ pedido.cliente.nombre }}</td>
-                        <td class="o_data_cell o_list_number">${{ pedido.total|floatformat:2 }}</td>
+                    <tr class="o_data_row" data-id="{{ pedido.pk }}">
+                        <td class="o_data_cell o_readonly">{{ pedido.name }}</td>
+                        <td class="o_data_cell">{{ pedido.date_order|date:"d/m/Y" }}</td>
+                        <td class="o_data_cell">{{ pedido.partner_id }}</td>
+                        <td class="o_data_cell o_list_number">${{ pedido.amount_total|floatformat:2 }}</td>
                         <td class="o_data_cell">
                             <span class="badge o_status_badge 
-                                {% if pedido.estado == 'confirmado' %}o_status_green
-                                {% elif pedido.estado == 'borrador' %}o_status_yellow
+                                {% if pedido.state == 'sale' %}o_status_green
+                                {% elif pedido.state == 'draft' %}o_status_yellow
                                 {% else %}o_status_red{% endif %}">
-                                <span class="o_status"></span>
-                                {{ pedido.get_estado_display }}
+                                {{ pedido.get_state_display }}
                             </span>
                         </td>
-                    </tr>
+                        <td class="o_data_cell">
+                            <div class="btn-group">
+                                <a href="{% url 'pedido_editar' pedido.pk %}" class="btn btn-sm btn-secondary">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="{% url 'pedido_eliminar' pedido.pk %}" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('¿Está seguro de eliminar este pedido?');">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center" style="color: white;">No hay pedidos registrados.</td>
+                        <td colspan="6" class="text-center" style="color: white;">No hay pedidos registrados.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
