@@ -314,29 +314,34 @@
             {% endblock %}
         </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'system_dashboard/js/script.js' %}"></script>
     <script>
-        $(document).ready(function() {
-            // Muestra el submenú al hacer clic en el elemento principal
-            $('.main-item').click(function() {
+    $(document).ready(function() {
+        // Muestra el submenú al hacer clic en el elemento principal
+        $('.main-item').click(function(e) {
+            if (!$(e.target).is('a')) {
                 $(this).next('ul').toggleClass('hide');
-            });
+            }
+        });
 
-            // Maneja el clic en el enlace "Pedidos"
-            $('#pedidos-link').click(function(e) {
-                e.preventDefault(); // Evita que el enlace recargue la página
-                $.ajax({
-                    url: "{% url 'pedidos' %}",  // URL de la vista de pedidos
-                    type: 'GET',
-                    success: function(response) {
-                        $('#main-content').html(response);  // Carga el contenido en el contenedor
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error al cargar el contenido: ", error);
-                    }
-                });
+        // Maneja el clic en el enlace "Pedidos"
+        $('#pedidos-link').click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'pedidos' %}",
+                type: 'GET',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                success: function(response) {
+                    $('.content-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al cargar el contenido: ", error);
+                    $('.content-container').html('<p>Error al cargar pedidos</p>');
+                }
             });
         });
+    });
     </script>
 
 </body>

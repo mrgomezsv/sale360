@@ -342,3 +342,43 @@ body.collapsed .expand-icon {
 body.collapsed .content-container {
     margin-left: 5rem; /* Ajusta el margen izquierdo para el sidebar colapsado */
 }
+
+
+/* Asegura que el sidebar y contenido estén alineados */
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px; /* Ancho del sidebar */
+    z-index: 100;
+}
+
+.content-container {
+    margin-left: 250px; /* Igual al ancho del sidebar */
+    padding: 20px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Cuando el sidebar está colapsado */
+body.collapsed .content-container {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+
+/* Estilos específicos para el contenido de pedidos */
+.pedidos-content {
+    background: #2c3e50;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
