@@ -11,14 +11,15 @@
 {% block content %}
 <style>
 :root {
-    --background: #F8F8FF;
-    --table-background: #FCFCFD;
-    --primary: #272727;
-    --gray: #A0A7B1;
-    --odd-row: #f6f9ff;
-    --th-background: #F4F5FC;
-    --gray-background: #EDEEF1;
-    --gray-mid: #F1F2F6;
+    --background: #2f373f;
+    --table-background: #2f373f;
+    --primary: #4a90e2;
+    --gray: #b8c2cc;
+    --odd-row: #353f48;
+    --th-background: #272e35;
+    --gray-background: #272e35;
+    --gray-mid: #353f48;
+    --text-color: #ffffff;
 }
 
 .table-widget {
@@ -28,8 +29,9 @@
     width: 230%;
     margin: 1rem 0.5rem;
     border: 2px solid var(--gray-background);
-    box-shadow: 0px 4px 16px 0px rgba(148, 156, 169, 0.15);
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.25);
     text-align: left;
+    color: var(--text-color);
 }
 
 .table-wrapper {
@@ -53,7 +55,7 @@
 .table-widget th {
     padding: 0.75rem;
     font-size: 0.875rem;
-    color: var(--gray);
+    color: var(--text-color);
     white-space: nowrap;
     font-weight: 600;
 }
@@ -79,18 +81,18 @@
 }
 
 .o_status_green {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #1e4620;
+    color: #4ade80;
 }
 
 .o_status_yellow {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: #4a3f10;
+    color: #fbbf24;
 }
 
 .o_status_red {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #4c1d1d;
+    color: #f87171;
 }
 
 .o_control_panel {
@@ -124,7 +126,7 @@
 
 .btn-secondary {
     background-color: var(--gray-mid);
-    color: var(--primary);
+    color: var(--text-color);
 }
 
 .btn-danger {
@@ -167,17 +169,17 @@
         </div>
         <div class="o_cp_right">
             <div class="o_search_options">
-                <div class="o_filter_menu">
+                <div class="o_filter_menu" style="margin-top: 2px;">
                     <button class="btn btn-link o_dropdown_toggler">
                         <i class="fa fa-filter"></i> Filtros
                     </button>
                 </div>
-                <div class="o_group_by_menu">
+                <div class="o_group_by_menu" style="margin-top: 2px;">
                     <button class="btn btn-link o_dropdown_toggler">
                         <i class="fa fa-bars"></i> Agrupar por
                     </button>
                 </div>
-                <div class="o_favorites_menu">
+                <div class="o_favorites_menu" style="margin-top: 2px;">
                     <button class="btn btn-link o_dropdown_toggler">
                         <i class="fa fa-star"></i> Favoritos
                     </button>
@@ -217,7 +219,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center">No hay pedidos registrados.</td>
+                        <td colspan="5" class="text-center" style="color: white;">No hay pedidos registrados.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
